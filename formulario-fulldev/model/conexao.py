@@ -1,6 +1,6 @@
 from .database import conexao_abrir,conexao_fechar
 
-con = conexao_abrir("autorack.proxy.rlwy.net", "root", "digitesenha", "railway",1111)
+con = conexao_abrir("junction.proxy.rlwy.net", "root", "DOiZqfbvIhEgcxMoXFqPpMPotoXKgdrC", "railway",58843)
 
 def listar_usuarios(con):
     with con.cursor(dictionary=True) as cursor:
