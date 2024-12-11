@@ -1,58 +1,34 @@
 from flask import Flask, request, render_template
 from model.conexao import listar_formularios,listar_tarefas,listar_usuarios, con
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-from flask import Flask, render_template
-
-app = Flask(__name__)
-
-@app.route('/')
+# Rota principal
+@app.route("/")
 def main():
-    return listar_formularios(con)
+    return render_template("main.html")
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    return render_template('login.html')
-
-@app.route('/logout')
-def logout():
-    return render_template('logout.html')
-
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
-
-@app.route('/criar_formulario', methods=['GET', 'POST'])
+# Rota para criar formulário
+@app.route("/criar")
 def criar_formulario():
-    return render_template('criar_formulario.html')
+    return render_template("criar_formulario.html")
 
-@app.route('/formulario/<int:id>')
-def visualizar_formulario(id):
-    return render_template('visualizar_formulario.html', id=id)
+# Rota para o dashboard (meus formulários)
+@app.route("/dashboard")
+def dashboard():
+    formularios = [
+        {"nome": "Eu já, eu nunca", "codigo": "abc123"},
+        {"nome": "Formulário 2", "codigo": "def456"},
+        {"nome": "Formulário 3", "codigo": "ghi789"},
+    ]  # Substitua por dados reais do banco de dados
+    return render_template("dashboard.html", formularios=formularios)
 
-@app.route('/formulario/<int:id>/editar', methods=['GET', 'POST'])
-def editar_formulario(id):
-    return render_template('editar_formulario.html', id=id)
-
-@app.route('/formulario/<int:id>/excluir', methods=['POST'])
-def excluir_formulario(id):
-    return render_template('excluir_formulario.html', id=id)
-
-@app.route('/formulario/<int:id>/responder', methods=['GET', 'POST'])
-def responder_formulario(id):
-    return render_template('responder_formulario.html', id=id)
-
-@app.route('/formulario/<int:id_formulario>/tarefa/<int:id_tarefa>/editar', methods=['GET', 'POST'])
-def editar_tarefa(id_formulario, id_tarefa):
-    return render_template('editar_tarefa.html', id_formulario=id_formulario, id_tarefa=id_tarefa)
-
-@app.route('/formulario/<int:id_formulario>/tarefa/<int:id_tarefa>/excluir', methods=['POST'])
-def excluir_tarefa(id_formulario, id_tarefa):
-    return render_template('excluir_tarefa.html', id_formulario=id_formulario, id_tarefa=id_tarefa)
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-if __name__=='__main__':
-  app.run(debug=True)
+# Rota para login
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        # Aqui você processaria os dados do formulário de login
+        # ...
+        return redirect(url_for("dashboard"))  # Redireciona para o dashboard após o login
+    return render_template("login.html")

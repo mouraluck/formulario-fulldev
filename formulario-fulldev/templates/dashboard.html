@@ -1,14 +1,149 @@
 <!DOCTYPE html>
-<html lang="pt">
-
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Formulários</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px; 
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav li {
+            margin-left: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            margin-left: 5px;
+        }
+
+        .container {
+            background-color: #a00;
+            color: #fff;
+            padding: 100px 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23000000' points='1600,160 1600,800 0,800 0,160'/%3E%3Cpolygon fill='%231a1a1a' points='1600,80 1600,720 0,720 0,80'/%3E%3Cpolygon fill='%23333333' points='1600,0 1600,640 0,640 0,0'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: cover;
+            text-align: center; 
+        }
+
+        .form-list {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 10px; 
+            max-width: 600px; 
+            margin: 0 auto; 
+            text-align: left; 
+        }
+
+        .form-list h2 {
+            margin-top: 0; 
+        }
+
+        .form-item {
+            display: flex; 
+            justify-content: space-between;
+            align-items: center; 
+            padding: 10px 0; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5); 
+        }
+
+        .form-item:last-child {
+            border-bottom: none; 
+        }
+
+        .form-item .actions {
+            display: flex; 
+        }
+
+        .form-item .actions button {
+            background-color: transparent;
+            border: none;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
-
 <body>
+  <header>
+      <img src="logo.png" alt="Logo" class="logo">
+      <nav>
+          <ul>
+              <li><a href="{{ url_for('main') }}">Home</a></li>
+              <li><a href="{{ url_for('criar_formulario') }}">Criar</a></li>
+              <li><a href="{{ url_for('dashboard') }}">Meus Formulários</a></li>
+              <li><a href="{{ url_for('login') }}">Login</a></li>
+          </ul>
+      </nav>
+      </header>
 
+  <div class="container">
+      <div class="form-list">
+          <h2>Lista de Formulários:</h2>
+
+          {% for formulario in formularios %}
+          <div class="form-item">
+              <span>{{ formulario.nome }}</span>
+              <div class="actions">
+                  <button aria-label="Editar">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-10.4 27.3 0 37.7l29.9 29.9 152.5-152.5 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1L322 273.3l11.3 11.3 33.9 33.9 11.3-11.3 73.6-73.6c10.4-10.4 10.4-27.3 0-37.7l-29.9-29.9zM192 408c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/></svg>
+                  </button>
+                  <button aria-label="Excluir">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                  </button>
+                  <button aria-label="Copiar">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M320 448v40c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V120c0-13.3 10.7-24 24-24h72v296c0 30.9 25.1 56 56 56h168zm0-344V0H152c-13.3 0-24 10.7-24 24v368c0 13.3 10.7 24 24 24h272c13.3 0 24-10.7 24-24V104h-72z"/></svg>
+                  </button>
+              </div>
+          </div>
+          {% endfor %}
+
+      </div>
+  </div>
+
+  <footer>
+      </footer>
 </body>
-
-</html>
